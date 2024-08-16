@@ -1,5 +1,7 @@
-package com.example.backend.user;
+package com.example.backend.config;
 
+import com.example.backend.model.User;
+import com.example.backend.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

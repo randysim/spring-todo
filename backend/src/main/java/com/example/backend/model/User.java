@@ -1,6 +1,5 @@
-package com.example.backend.user;
+package com.example.backend.model;
 
-import com.example.backend.todolist.TodoList;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
