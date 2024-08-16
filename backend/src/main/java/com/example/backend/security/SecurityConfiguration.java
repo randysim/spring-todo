@@ -31,7 +31,6 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
-                        .loginPage("/login")
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
                                 .userService(googleOAuth2UserService)
                         )
@@ -45,8 +44,11 @@ public class SecurityConfiguration {
                                 response.sendRedirect("/");
                             }
                         })
+                )
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/").permitAll()
                 );
 
-                return http.build();
+        return http.build();
     }
 }

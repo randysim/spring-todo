@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/v1/user")
+@RequestMapping(path = "/api/v1/user")
 public class UserController {
     private final UserService userService;
 
@@ -21,12 +21,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(path="{userId}")
+    @GetMapping(path="/{userId}")
     public User getUser(@PathVariable("userId") Long id) {
         return userService.getUser(id);
     }
 
-    @GetMapping
+    @GetMapping(path = "/authenticated")
     public User getAuthenticatedUser(@AuthenticationPrincipal OAuth2User principal) {
         if (principal == null) return null;
 

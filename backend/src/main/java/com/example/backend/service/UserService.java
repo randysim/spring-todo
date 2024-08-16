@@ -52,11 +52,9 @@ public class UserService {
         Optional<User> userOptional = userRepository.findUserByEmail(email);
 
         if (userOptional.isEmpty()) {
-            // Create User
-            String name = principal.getAttribute("name");
-            User newUser = new User(
-
-            );
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
+
+        return userOptional.get();
     }
 }
