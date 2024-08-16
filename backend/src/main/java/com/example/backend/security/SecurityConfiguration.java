@@ -8,10 +8,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.IOException;
 
@@ -22,6 +25,16 @@ public class SecurityConfiguration {
 
     @Autowired
     private UserService userService;
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+          @Override
+          public void addCorsMappings(CorsRegistry registry) {
+              registry.addMapping("/**").allowedOrigins("*");
+          }
+        };
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -41,7 +54,7 @@ public class SecurityConfiguration {
 
                                 GoogleOAuth2User googleOAuth2User = (GoogleOAuth2User) authentication.getPrincipal();
                                 userService.processOAuthPostLogin(googleOAuth2User);
-                                response.sendRedirect("/");
+                                response.sendRedirect("http://localhost:3000");
                             }
                         })
                 )

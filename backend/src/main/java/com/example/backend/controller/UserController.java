@@ -33,4 +33,9 @@ public class UserController {
         GoogleOAuth2User googleOAuth2User = (GoogleOAuth2User) principal;
         return userService.getAuthenticatedUser(googleOAuth2User);
     }
+
+    @GetMapping(path="/success")
+    public String loginSuccess(@AuthenticationPrincipal OAuth2User principal) {
+        return "Hello, " + principal.getName();
+    }
 }
