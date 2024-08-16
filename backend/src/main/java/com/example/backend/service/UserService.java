@@ -34,7 +34,7 @@ public class UserService {
         String name = googleOAuth2User.getName();
         String email = googleOAuth2User.getEmail();
 
-        Optional<User> userOptional = userRepository.findUserByEmail(email);
+        Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isEmpty()) {
             // Create user
             User newUser = new User(
@@ -49,7 +49,7 @@ public class UserService {
     public User getAuthenticatedUser(GoogleOAuth2User principal) {
         String email = principal.getAttribute("email");
 
-        Optional<User> userOptional = userRepository.findUserByEmail(email);
+        Optional<User> userOptional = userRepository.findByEmail(email);
 
         if (userOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
