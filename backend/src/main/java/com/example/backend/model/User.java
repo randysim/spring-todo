@@ -21,17 +21,15 @@ public class User {
     private Long id;
     private String username;
     private String email;
-    private String password;
     private LocalDate createdAt;
 
     @OneToMany(mappedBy = "user")
     private List<TodoList> todoLists;
 
     public User() {}
-    public User(String username, String email, String password, LocalDate createdAt) {
+    public User(String username, String email, LocalDate createdAt) {
         this.username = username;
         this.email = email;
-        this.password = password;
         this.createdAt = createdAt;
     }
 
@@ -57,14 +55,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public LocalDate getCreatedAt() {

@@ -18,7 +18,6 @@ public class UserConfig {
             User randy = new User(
                     "randy",
                     "randysim9@gmail.com",
-                    "password",
                     LocalDate.of(2024, Month.AUGUST, 14)
             );
 
