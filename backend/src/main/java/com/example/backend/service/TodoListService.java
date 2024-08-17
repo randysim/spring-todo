@@ -34,6 +34,14 @@ public class TodoListService {
 
     /* CREATE TODO-LISTS */
     public TodoListResponseDTO createTodoList(String todoListTitle, String userEmail) {
+        if (todoListTitle.length() > 100) {
+            throw new IllegalStateException("Todo List title exceeds 100 characters.");
+        }
+
+        if (todoListTitle.isEmpty()) {
+            throw new IllegalStateException("Todo List can't be empty.");
+        }
+
         Optional<User> userOptional = userRepository.findByEmail(userEmail);
 
         if (userOptional.isEmpty()) {
@@ -56,5 +64,56 @@ public class TodoListService {
     }
 
     /* UPDATE TODO-LISTS */
+    public TodoListResponseDTO updateTodoList(Long todoListId, String todoListTitle, String userEmail) {
+        if (todoListTitle.length() > 100) {
+            throw new IllegalStateException("Todo List title exceeds 100 characters.");
+        }
+
+        if (todoListTitle.isEmpty()) {
+            throw new IllegalStateException("Todo List can't be empty.");
+        }
+
+        Optional<TodoList> todoListOptional = todoListRepository.findById(todoListId);
+
+        if (todoListOptional.isEmpty()) {
+            throw new IllegalStateException("Invalid Todo List ID.");
+        }
+
+        TodoList todoList = todoListOptional.get();
+
+        if (!todoList.getUser().getEmail().equals(userEmail)) {
+            throw new IllegalStateException("User does not own Todo List with given ID.");
+        }
+
+        todoList.setTitle(todoListTitle);
+        todoListRepository.save(todoList);
+
+        return new TodoListResponseDTO(todoListTitle, todoListId);
+    }
+
     /* DELETE TODO-LISTS*/
+    public void deleteTodoList(Long todoListId, String userEmail) {
+        Optional<User> userOptional = userRepository.findByEmail(userEmail);
+
+        if (userOptional.isEmpty()) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        User user = userOptional.get();
+
+        Optional<TodoList> todoListOptional = todoListRepository.findById(todoListId);
+
+        if (todoListOptional.isEmpty()) {
+            throw new IllegalArgumentException("Todo list not found.");
+        }
+
+        TodoList todoList = todoListOptional.get();
+
+        if (!todoList.getUser().getEmail().equals(user.getEmail())) {
+            throw new IllegalStateException("User does not own Todo List with given ID.");
+        }
+
+        user.removeTodoList(todoList);
+        userRepository.save(user);
+    }
 }

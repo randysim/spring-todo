@@ -2,7 +2,6 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.inbound.TodoListRequestDTO;
 import com.example.backend.dto.outbound.TodoListResponseDTO;
-import com.example.backend.model.TodoList;
 import com.example.backend.security.GoogleOAuth2User;
 import com.example.backend.service.TodoListService;
 import jakarta.transaction.Transactional;
@@ -29,12 +28,12 @@ public class TodoListController {
     @DeleteMapping(path = "/${todoListId}")
     @Transactional
     public void deleteTodoList(@AuthenticationPrincipal GoogleOAuth2User principal, Long todoListId) {
-        
+        todoListService.deleteTodoList(todoListId, principal.getEmail());
     }
 
     @PutMapping(path = "/${todoListId}")
     @Transactional
     public TodoListResponseDTO updateTodoList(@AuthenticationPrincipal GoogleOAuth2User principal, @PathVariable Long todoListId, @RequestBody TodoListRequestDTO requestDTO) {
-
+        return todoListService.updateTodoList(todoListId, requestDTO.getTitle(), principal.getEmail());
     }
 }

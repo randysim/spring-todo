@@ -58,5 +58,5 @@ public class TodoList {
         return user;
     }
 
-    public User setUser(User user) { this.user = user; }
+    public void setUser(User user) { this.user = user; }
 }
