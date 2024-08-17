@@ -32,6 +32,11 @@ public class TodoList {
         this.createdAt = createdAt;
         this.user = user;
     }
+    public TodoList(String title, LocalDate createdAt, User user) {
+        this.title = title;
+        this.createdAt = createdAt;
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
@@ -52,4 +57,6 @@ public class TodoList {
     public User getUser() {
         return user;
     }
+
+    public User setUser(User user) { this.user = user; }
 }
