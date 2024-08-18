@@ -3,6 +3,7 @@ package com.example.backend.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "todo_list")
@@ -24,6 +25,9 @@ public class TodoList {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "todolist", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> taskList;
 
     public TodoList() {}
     public TodoList(Long id, String title, LocalDate createdAt, User user) {
@@ -59,4 +63,18 @@ public class TodoList {
     }
 
     public void setUser(User user) { this.user = user; }
+
+    public void addTask(Task task) {
+        task.setTodoList(this);
+        taskList.add(task);
+    }
+
+    public void removeTask(Task task) {
+        task.setTodoList(null);
+        taskList.remove(task);
+    }
+
+    public List<Task> getTaskList() {
+        return taskList;
+    }
 }

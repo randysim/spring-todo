@@ -31,7 +31,7 @@ public class UserController {
         return userService.getUser(id);
     }
 
-    @GetMapping(path="/todolist")
+    @GetMapping(path="/todolists")
     public List<TodoListResponseDTO> getUserTodoLists(@AuthenticationPrincipal GoogleOAuth2User principal) {
         return todoListService.getUserTodoLists(principal.getEmail());
     }
