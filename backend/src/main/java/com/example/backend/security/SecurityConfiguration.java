@@ -18,7 +18,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 @Configuration
 public class SecurityConfiguration {

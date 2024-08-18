@@ -26,7 +26,7 @@ public class TodoList {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "todolist", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "todoList", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> taskList;
 
     public TodoList() {}
