@@ -9,7 +9,8 @@ export default function Dashboard() {
     const user = useContext(UserContext);
     const router = useRouter();
 
-    const [todoLists, setTodoLists] = useState([]);
+    const [todoLists, setTodoLists] = useState<TodoList[]>([]);
+    const [title, setTitle] = useState("");
 
     useEffect(() => {
         if (!user.signedIn) {
@@ -27,11 +28,38 @@ export default function Dashboard() {
         }
 
         fetchUserTodolists();
-    }, [])
+    }, []);
+
+    const createTodoList = async () => {
+        const res = await fetch(
+            "http://localhost:8080/api/v1/todolists", 
+            { 
+                method: "POST", 
+                headers: { "Content-Type": "application/json" },
+                credentials: "include", 
+                body: JSON.stringify({ title }) 
+            }
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            console.log(res, data);
+            return;
+        }
+
+        setTodoLists([...todoLists, data]);
+        setTitle("");
+    }
 
     return (
         <div>
             {JSON.stringify(todoLists)}
+
+            <div>
+                <input className="border-2 border-black" onChange={e => setTitle(e.target.value)} value={title} />
+                <button onClick={createTodoList}>Create Todo List</button>
+            </div>
         </div>
     )
 }

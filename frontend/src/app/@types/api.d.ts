@@ -5,3 +5,8 @@ interface User {
     picture: string;
     createdAt: string;
 }
+
+interface TodoList {
+    id: number;
+    title: string;
+}
