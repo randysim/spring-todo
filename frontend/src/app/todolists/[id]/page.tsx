@@ -70,12 +70,34 @@ export default function Page({ params } : { params: { id: number }}) {
         const data = await res.json();
 
         if (!res.ok) {
-            console.log(res, data);
+            alert("Failed to create task.");
             return;
         }
 
         setTasks([...tasks, data]);
         setDesc("");
+    }
+
+    const saveTodoList = async () => {
+        const res = await fetch(
+            `http://localhost:8080/api/v1/todolists/${params.id}`, 
+            { 
+                method: "PUT", 
+                headers: { "Content-Type": "application/json" },
+                credentials: "include", 
+                body: JSON.stringify({ title: editTitle }) 
+            }
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert("Failed to save todo list");
+            return;
+        }
+
+        setTitle(editTitle);
+        setIsEditingTitle(false);
     }
 
     return (
@@ -84,8 +106,8 @@ export default function Page({ params } : { params: { id: number }}) {
                 isEditingTitle ? 
                 (
                     <div>
-                        <input className="border-2 border-black" value={editTitle} onChange={(e) => setTitle(e.target.value)} />
-                        <button onClick={() => setIsEditingTitle(false)}>Save</button>
+                        <input className="border-2 border-black" value={editTitle} onChange={(e) => setEditTitle(e.target.value)} />
+                        <button onClick={saveTodoList}>Save</button>
                     </div>
                 ) :
                 (

@@ -50,7 +50,7 @@ export default function Dashboard() {
         const data = await res.json();
 
         if (!res.ok) {
-            console.log(res, data);
+            alert("Failed to create Todo List.")
             return;
         }
 
