@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.inbound.TaskRequestDTO;
+import com.example.backend.dto.outbound.TaskResponseDTO;
 import com.example.backend.model.Task;
 import com.example.backend.model.TodoList;
 import com.example.backend.model.User;
@@ -15,6 +16,7 @@ import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -56,15 +58,18 @@ public class TaskService {
     }
 
     /* GET TASKS */
-    public List<Task> getAllTasks(String userEmail, Long todoListId) {
+    public List<TaskResponseDTO> getAllTasks(String userEmail, Long todoListId) {
         Map.Entry<User, TodoList> userAndTodoList = validateUser(userEmail, todoListId);
         TodoList todoList = userAndTodoList.getValue();
 
-        return todoList.getTaskList();
+        return todoList.getTaskList()
+                .stream()
+                .map(task -> new TaskResponseDTO(task.getId(), task.getDescription(), task.getDue(), task.getCompleted()))
+                .collect(Collectors.toList());
     }
 
     /* CREATE TASK */
-    public Task createTask(String userEmail, Long todoListId, TaskRequestDTO requestDTO) {
+    public TaskResponseDTO createTask(String userEmail, Long todoListId, TaskRequestDTO requestDTO) {
         Map.Entry<User, TodoList> userAndTodoList = validateUser(userEmail, todoListId);
         TodoList todoList = userAndTodoList.getValue();
 
@@ -80,9 +85,9 @@ public class TaskService {
 
         Task task = new Task(requestDTO.getDescription(), LocalDate.now(), requestDTO.getDue());
         todoList.addTask(task);
-        todoListRepository.save(todoList);
+        taskRepository.save(task);
 
-        return task;
+        return new TaskResponseDTO(task.getId(), desc, LocalDate.now(), task.getCompleted());
     }
 
     /* DELETE TASK */
@@ -106,7 +111,7 @@ public class TaskService {
     }
 
     /* UPDATE TASK */
-    public Task updateTask(String userEmail, Long todoListId, Long taskId, TaskRequestDTO requestDTO) {
+    public TaskResponseDTO updateTask(String userEmail, Long todoListId, Long taskId, TaskRequestDTO requestDTO) {
         Map.Entry<User, TodoList> userAndTodoList = validateUser(userEmail, todoListId);
         TodoList todoList = userAndTodoList.getValue();
         Optional<Task> taskOptional = taskRepository.findById(taskId);
@@ -135,6 +140,8 @@ public class TaskService {
         task.setDue(requestDTO.getDue());
         task.setCompleted(requestDTO.getCompleted());
 
-        return task;
+        taskRepository.save(task);
+
+        return new TaskResponseDTO(task.getId(), desc, LocalDate.now(), task.getCompleted());
     }
 }

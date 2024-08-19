@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.inbound.TaskRequestDTO;
+import com.example.backend.dto.outbound.TaskResponseDTO;
 import com.example.backend.model.Task;
 import com.example.backend.security.GoogleOAuth2User;
 import com.example.backend.service.TaskService;
@@ -22,7 +23,7 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<Task> getTasks(
+    public List<TaskResponseDTO> getTasks(
             @AuthenticationPrincipal GoogleOAuth2User principal,
             @PathVariable("todoListId") Long todoListId
     ) {
@@ -30,7 +31,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task createTask(
+    public TaskResponseDTO createTask(
             @AuthenticationPrincipal GoogleOAuth2User principal,
             @PathVariable("todoListId") Long todoListId,
             @RequestBody TaskRequestDTO requestDTO
@@ -39,7 +40,7 @@ public class TaskController {
     }
 
     @PutMapping
-    public Task updateTask(
+    public TaskResponseDTO updateTask(
             @AuthenticationPrincipal GoogleOAuth2User principal,
             @PathVariable("todoListId") Long todoListId,
             @RequestBody TaskRequestDTO requestDTO,
