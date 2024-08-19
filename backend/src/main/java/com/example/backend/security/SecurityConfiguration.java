@@ -49,7 +49,7 @@ public class SecurityConfiguration {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/error", "/oauth/**").permitAll()
+                        .requestMatchers("/",  "/oauth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
@@ -66,9 +66,6 @@ public class SecurityConfiguration {
                                 response.sendRedirect("http://localhost:3000");
                             }
                         })
-                )
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/").permitAll()
                 );
 
         return http.build();
