@@ -1,8 +1,9 @@
 "use client"
-import useUser from "@/app/lib/useUser";
+import UserContext from "./comps/context/UserContext";
+import { useContext } from "react";
 
 export default function Home() {
-  let user = useUser();
+  const user = useContext(UserContext);
 
   return (
     <div>
