@@ -19,6 +19,11 @@ public class TodoListController {
         this.todoListService = todoListService;
     }
 
+    @GetMapping(path = "/{todoListId}")
+    public TodoListResponseDTO getTodoList(@AuthenticationPrincipal GoogleOAuth2User principal, @PathVariable("todoListId") Long id) {
+        return todoListService.getTodoList(principal.getEmail(), id);
+    }
+
     @PostMapping
     @Transactional
     public TodoListResponseDTO createTodoList(@AuthenticationPrincipal GoogleOAuth2User principal, @RequestBody TodoListRequestDTO requestDTO) {

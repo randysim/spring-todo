@@ -32,6 +32,22 @@ public class TodoListService {
                 .collect(Collectors.toList());
     }
 
+    public TodoListResponseDTO getTodoList(String userEmail, Long id) {
+        Optional<TodoList> todoListOptional = todoListRepository.findById(id);
+
+        if (todoListOptional.isEmpty()) {
+            throw new IllegalStateException("Invalid Todo List ID.");
+        }
+
+        TodoList todoList = todoListOptional.get();
+
+        if (!todoList.getUser().getEmail().equals(userEmail)) {
+            throw new IllegalStateException("User does not own Todo List.");
+        }
+
+        return new TodoListResponseDTO(todoList.getTitle(), todoList.getId());
+    }
+
     /* CREATE TODO-LISTS */
     public TodoListResponseDTO createTodoList(String todoListTitle, String userEmail) {
         if (todoListTitle.length() > 100) {

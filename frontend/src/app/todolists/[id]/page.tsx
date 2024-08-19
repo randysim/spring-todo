@@ -11,6 +11,10 @@ export default function Page({ params } : { params: { id: number }}) {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [desc, setDesc] = useState("");
 
+    const [title, setTitle] = useState("");
+    const [editTitle, setEditTitle] = useState("");
+    const [isEditingTitle, setIsEditingTitle] = useState(false);
+
     useEffect(() => {
         const fetchTasks = async () => {
             try {
@@ -25,6 +29,25 @@ export default function Page({ params } : { params: { id: number }}) {
 
         fetchTasks();
     }, [params.id]);
+
+    useEffect(() => {
+        const fetchTodoList = async () => {
+            try {
+                const res = await fetch(`http://localhost:8080/api/v1/todolists/${params.id}`, { method: "GET", credentials: "include" });
+                const data = await res.json();
+
+                setTitle(data.title);
+            } catch(error) {
+                router.push("/");
+            }
+        }
+
+        fetchTodoList();
+    }, [params.id]);
+
+    useEffect(() => {
+        setEditTitle(title);
+    }, [isEditingTitle])
     
     if (!user.signedIn) {
         router.push("/");
@@ -55,6 +78,21 @@ export default function Page({ params } : { params: { id: number }}) {
 
     return (
         <div>
+            {
+                isEditingTitle ? 
+                (
+                    <div>
+                        <input value={editTitle} onChange={(e) => setTitle(e.target.value)} />
+                        <button onClick={() => setIsEditingTitle(false)}>Save</button>
+                    </div>
+                ) :
+                (
+                    <div>
+                        <h1>{title}</h1>
+                        <button onClick={() => setIsEditingTitle(true)}>Edit</button>
+                    </div>
+                )
+            }
             <div>{JSON.stringify(tasks)}</div>
             <div>
                 <input className="border-2 border-black" type="text" value={desc} onChange={e => setDesc(e.target.value)} />
