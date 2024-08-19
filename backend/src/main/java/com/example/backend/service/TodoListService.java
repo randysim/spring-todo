@@ -58,7 +58,7 @@ public class TodoListService {
 
         TodoList todoList = new TodoList(todoListTitle, LocalDate.now(), user);
         user.addTodoList(todoList);
-        userRepository.save(user);
+        todoListRepository.save(todoList);
 
         return new TodoListResponseDTO(todoList.getTitle(), todoList.getId());
     }

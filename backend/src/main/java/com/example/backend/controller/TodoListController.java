@@ -2,15 +2,12 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.inbound.TodoListRequestDTO;
 import com.example.backend.dto.outbound.TodoListResponseDTO;
-import com.example.backend.model.Task;
 import com.example.backend.security.GoogleOAuth2User;
 import com.example.backend.service.TodoListService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/todolists")
