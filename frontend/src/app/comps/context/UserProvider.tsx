@@ -12,7 +12,7 @@ const UserProvider = ({ children}: { children: ReactNode }) => {
 
                 setUser({ signedIn: true, user: data });
             } catch(error) {
-                setUser({ signedIn: false, user: {} })
+                setUser({ signedIn: false, user: {} });
             }
         }
 

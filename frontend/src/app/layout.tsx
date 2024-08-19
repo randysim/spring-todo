@@ -1,5 +1,4 @@
 "use client"
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import UserProvider from "./comps/context/UserProvider";
@@ -13,6 +12,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>Todo List</title>
+      </head>
       <body className={inter.className}>
           <UserProvider>
             {children}
