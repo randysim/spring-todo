@@ -47,12 +47,14 @@ export default function Page({ params } : { params: { id: number }}) {
 
     useEffect(() => {
         setEditTitle(title);
-    }, [isEditingTitle])
-    
-    if (!user.signedIn) {
-        router.push("/");
-        return;
-    }
+    }, [isEditingTitle]);
+
+    useEffect(() => {
+        if (!user.loading && !user.signedIn) {
+            router.push("/");
+            return;
+        }
+    }, [user]);
 
     const createTask = async () => {
         const res = await fetch(
@@ -82,7 +84,7 @@ export default function Page({ params } : { params: { id: number }}) {
                 isEditingTitle ? 
                 (
                     <div>
-                        <input value={editTitle} onChange={(e) => setTitle(e.target.value)} />
+                        <input className="border-2 border-black" value={editTitle} onChange={(e) => setTitle(e.target.value)} />
                         <button onClick={() => setIsEditingTitle(false)}>Save</button>
                     </div>
                 ) :

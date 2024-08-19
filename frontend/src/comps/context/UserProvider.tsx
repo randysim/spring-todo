@@ -2,7 +2,7 @@ import { ReactNode, useState, useEffect } from "react"
 import UserContext from "./UserContext";
 
 const UserProvider = ({ children}: { children: ReactNode }) => {
-    const [user, setUser] = useState({ signedIn: false, user: {} });
+    const [user, setUser] = useState({ signedIn: false, loading: true, user: {} });
 
     useEffect(() => {
         const getAuthenticatedUser = async () => {
@@ -10,9 +10,9 @@ const UserProvider = ({ children}: { children: ReactNode }) => {
                 let res = await fetch("http://localhost:8080/api/v1/user/authenticated", { method: "GET", credentials: "include" });
                 let data = await res.json();
 
-                setUser({ signedIn: true, user: data });
+                setUser({ signedIn: true, loading: false, user: data });
             } catch(error) {
-                setUser({ signedIn: false, user: {} });
+                setUser({ signedIn: false, loading: false, user: {} });
             }
         }
 

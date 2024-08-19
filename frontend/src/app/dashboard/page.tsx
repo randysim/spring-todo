@@ -15,7 +15,7 @@ export default function Dashboard() {
     const [title, setTitle] = useState("");
 
     useEffect(() => {
-        if (!user.signedIn) {
+        if (!user.loading && !user.signedIn) {
             router.push("/");
             return;
         }
