@@ -4,6 +4,8 @@ import { useContext, useEffect, useState } from "react"
 import UserContext from "../comps/context/UserContext"
 import { useRouter } from "next/navigation";
 
+import DashboardTodoList from "../comps/pages/dashboard/DashboardTodoList";
+
 
 export default function Dashboard() {
     const user = useContext(UserContext);
@@ -58,7 +60,13 @@ export default function Dashboard() {
 
     return (
         <div>
-            {JSON.stringify(todoLists)}
+            {todoLists.map(todoList => (
+                <DashboardTodoList 
+                    key={todoList.id} 
+                    title={todoList.title} 
+                    onClick={() => router.push(`/todolists/${todoList.id}`)} 
+                />
+            ))}
 
             <div>
                 <input className="border-2 border-black" onChange={e => setTitle(e.target.value)} value={title} />
