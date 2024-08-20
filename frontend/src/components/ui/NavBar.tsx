@@ -6,15 +6,17 @@ const NavBar = () => {
 
     return (
         <div className="fixed w-full h-16 flex items-center z-10">
-            <div>
-                <h2>Todo App</h2>
+            <div className="w-[20%]">
+                <h1 className="text-2xl font-bold ml-4 cursor-pointer">Todo App</h1>
             </div>
-            <div>
+            <div className="flex space-x-4 items-center ml-auto w-[200px]">
                 {
                     user.signedIn &&
                     (
                         <>
-                            {user.user.username || "User"}
+                            <div>
+                                {user.user.username || "User"}
+                            </div>
                             <a href="http://localhost:8080/logout">Sign out</a>
                         </>
                     )
