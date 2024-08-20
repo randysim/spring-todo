@@ -39,7 +39,7 @@ public class TaskController {
         return taskService.createTask(principal.getEmail(), todoListId, requestDTO);
     }
 
-    @PutMapping
+    @PutMapping(path = "/{taskId}")
     public TaskResponseDTO updateTask(
             @AuthenticationPrincipal GoogleOAuth2User principal,
             @PathVariable("todoListId") Long todoListId,
@@ -49,7 +49,7 @@ public class TaskController {
         return taskService.updateTask(principal.getEmail(), todoListId, taskId, requestDTO);
     }
 
-    @DeleteMapping
+    @DeleteMapping(path = "/{taskId}")
     public void deleteTask(
             @AuthenticationPrincipal GoogleOAuth2User principal,
             @PathVariable("todoListId") Long todoListId,

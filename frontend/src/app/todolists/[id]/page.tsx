@@ -1,6 +1,7 @@
 'use client'
 
 import UserContext from "@/comps/context/UserContext"
+import ListTask from "@/comps/pages/todolists/ListTask";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react"
 
@@ -100,6 +101,44 @@ export default function Page({ params } : { params: { id: number }}) {
         setIsEditingTitle(false);
     }
 
+    const saveTask = async (id: number, newDesc: string, completed: boolean) => {
+        const res = await fetch(
+            `http://localhost:8080/api/v1/todolists/${params.id}/tasks/${id}`, 
+            { 
+                method: "PUT", 
+                headers: { "Content-Type": "application/json" },
+                credentials: "include", 
+                body: JSON.stringify({ description: newDesc, completed }) 
+            }
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert("Failed to save task");
+            return;
+        }
+
+        setTasks(tasks.map(task => task.id === id ? data : task));
+    }
+
+    const deleteTask = async (id: number) => {
+        const res = await fetch(
+            `http://localhost:8080/api/v1/todolists/${params.id}/tasks/${id}`, 
+            { 
+                method: "DELETE", 
+                credentials: "include" 
+            }
+        );
+
+        if (!res.ok) {
+            alert("Failed to delete task");
+            return;
+        }
+
+        setTasks(tasks.filter(task => task.id !== id));
+    }
+
     return (
         <div>
             {
@@ -117,7 +156,19 @@ export default function Page({ params } : { params: { id: number }}) {
                     </div>
                 )
             }
-            <div>{JSON.stringify(tasks)}</div>
+            <div>
+                {
+                    tasks.map(task => (
+                        <ListTask 
+                            key={task.id}
+                            description={task.description}
+                            completed={task.completed}
+                            onSave={(newDesc, completed) => saveTask(task.id, newDesc, completed)}
+                            onDelete={() => deleteTask(task.id)}
+                        />
+                    ))
+                }
+            </div>
             <div>
                 <input className="border-2 border-black" type="text" value={desc} onChange={e => setDesc(e.target.value)} />
                 <button onClick={createTask}>Create Task</button>
