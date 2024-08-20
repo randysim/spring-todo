@@ -141,24 +141,32 @@ export default function Page({ params } : { params: { id: number }}) {
 
     return (
         <div>
+            <div className="ml-10">
+                <button className="border-2 p-2 rounded-xl" onClick={() => router.push("/dashboard")}>Back</button>
+            </div>
             {
                 isEditingTitle ? 
                 (
-                    <div>
-                        <input className="border-2 border-black" value={editTitle} onChange={(e) => setEditTitle(e.target.value)} />
+                    <div className="flex justify-center space-x-4">
+                        <input className="border-2 text-4xl border-black" value={editTitle} onChange={(e) => setEditTitle(e.target.value)} />
                         <button onClick={saveTodoList}>Save</button>
+                        <button onClick={() => setIsEditingTitle(false)}>Cancel</button>
                     </div>
                 ) :
                 (
-                    <div>
-                        <h1>{title}</h1>
+                    <div className="flex justify-center space-x-4">
+                        <h1 className="text-4xl">{title}</h1>
                         <button onClick={() => setIsEditingTitle(true)}>Edit</button>
                     </div>
                 )
             }
-            <div>
+            <div className="flex justify-center space-x-4 my-10">
+                <input className="border-2 border-black" type="text" value={desc} onChange={e => setDesc(e.target.value)} />
+                <button onClick={createTask}>Create Task</button>
+            </div>
+            <div className="flex flex-col items-center space-y-4">
                 {
-                    tasks.map(task => (
+                    tasks.sort((a, b) => Number(a.completed) - Number(b.completed)).map(task => (
                         <ListTask 
                             key={task.id}
                             description={task.description}
@@ -168,10 +176,6 @@ export default function Page({ params } : { params: { id: number }}) {
                         />
                     ))
                 }
-            </div>
-            <div>
-                <input className="border-2 border-black" type="text" value={desc} onChange={e => setDesc(e.target.value)} />
-                <button onClick={createTask}>Create Task</button>
             </div>
         </div>
     )

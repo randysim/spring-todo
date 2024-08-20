@@ -24,7 +24,7 @@ const ListTask = (
     }, [isEditing]);
 
     return (
-        <div>
+        <div className="flex flex-nowrap space-x-10 border-4 rounded-xl p-5">
             <input 
                 type="checkbox" 
                 checked={completed} 
