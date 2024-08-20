@@ -1,7 +1,7 @@
 'use client'
 
-import UserContext from "@/components/context/UserContext"
-import ListTask from "@/components/pages/todolists/ListTask";
+import UserContext from "@/comps/context/UserContext"
+import ListTask from "@/comps/pages/todolists/ListTask";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react"
 

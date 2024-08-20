@@ -15,7 +15,7 @@ const NavBar = () => {
                     (
                         <>
                             <div>
-                                {user.user.username || "User"}
+                                    {user.user.username || "User"}
                             </div>
                             <a href="http://localhost:8080/logout">Sign out</a>
                         </>

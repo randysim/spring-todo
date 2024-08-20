@@ -1,8 +1,8 @@
 "use client"
 import { Inter } from "next/font/google";
 import "./globals.css";
-import UserProvider from "../components/context/UserProvider";
-import NavBar from "@/components/ui/NavBar";
+import UserProvider from "../comps/context/UserProvider";
+import NavBar from "@/comps/ui/NavBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
