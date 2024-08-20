@@ -58,13 +58,30 @@ export default function Dashboard() {
         setTitle("");
     }
 
+    const deleteTodoList = async (id: number) => {
+        const res = await fetch(
+            `http://localhost:8080/api/v1/todolists/${id}`, 
+            { 
+                method: "DELETE", 
+                credentials: "include" 
+            }
+        );
+
+        if (!res.ok) {
+            alert("Failed to delete Todo List.");
+            return;
+        }
+
+        setTodoLists(todoLists.filter(todoList => todoList.id !== id));
+    }
     return (
         <div>
             {todoLists.map(todoList => (
                 <DashboardTodoList 
                     key={todoList.id} 
                     title={todoList.title} 
-                    onClick={() => router.push(`/todolists/${todoList.id}`)} 
+                    onClick={() => router.push(`/todolists/${todoList.id}`)}
+                    onDelete={() => deleteTodoList(todoList.id)} 
                 />
             ))}
 
