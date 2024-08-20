@@ -66,6 +66,11 @@ public class SecurityConfiguration {
                                 response.sendRedirect("http://localhost:3000");
                             }
                         })
+                )
+                .logout(logout ->
+                        logout
+                                .logoutUrl("/logout")
+                                .logoutSuccessUrl("http://localhost:3000")
                 );
 
         return http.build();

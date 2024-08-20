@@ -1,10 +1,10 @@
 'use client'
 
 import { useContext, useEffect, useState } from "react"
-import UserContext from "../../comps/context/UserContext"
+import UserContext from "../../components/context/UserContext"
 import { useRouter } from "next/navigation";
 
-import DashboardTodoList from "../../comps/pages/dashboard/DashboardTodoList";
+import DashboardTodoList from "../../components/pages/dashboard/DashboardTodoList";
 
 
 export default function Dashboard() {
