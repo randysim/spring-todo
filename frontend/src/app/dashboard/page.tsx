@@ -76,18 +76,20 @@ export default function Dashboard() {
     }
     return (
         <div>
-            {todoLists.map(todoList => (
-                <DashboardTodoList 
-                    key={todoList.id} 
-                    title={todoList.title} 
-                    onClick={() => router.push(`/todolists/${todoList.id}`)}
-                    onDelete={() => deleteTodoList(todoList.id)} 
-                />
-            ))}
-
-            <div>
+            <div className="flex justify-center items-center space-x-10">
                 <input className="border-2 border-black" onChange={e => setTitle(e.target.value)} value={title} />
                 <button onClick={createTodoList}>Create Todo List</button>
+            </div>
+
+            <div className="flex flex-col space-y-4 items-center mt-10">
+                {todoLists.map(todoList => (
+                    <DashboardTodoList 
+                        key={todoList.id} 
+                        title={todoList.title} 
+                        onClick={() => router.push(`/todolists/${todoList.id}`)}
+                        onDelete={() => deleteTodoList(todoList.id)} 
+                    />
+                ))}
             </div>
         </div>
     )
